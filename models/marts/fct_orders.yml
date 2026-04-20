@@ -1,0 +1,32 @@
+version: 2
+
+models:
+  - name: fct_orders
+    description: 注文単位で顧客情報と注文明細の売上集計を結合したファクトモデル。
+    columns:
+      - name: order_key
+        description: 注文キー。
+      - name: order_date
+        description: 注文日。
+      - name: customer_key
+        description: 顧客キー。
+      - name: status_code
+        description: 注文ステータスコード。
+      - name: priority_code
+        description: 注文優先度コード。
+      - name: ship_priority
+        description: 出荷優先度。
+      - name: clerk_name
+        description: 担当者名。
+      - name: name
+        description: 顧客名。
+      - name: market_segment
+        description: 顧客の市場セグメント。
+      - name: gross_item_sales_amount
+        description: 注文内明細の割引前売上金額合計。
+      - name: item_discount_amount
+        description: 注文内明細の値引き金額合計。
+      - name: item_tax_amount
+        description: 注文内明細の税額合計。
+      - name: net_item_sales_amount
+        description: 注文内明細の税込・値引き後売上金額合計。
