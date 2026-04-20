@@ -1,0 +1,58 @@
+version: 2
+
+models:
+  - name: monthly_sales
+    description: 月次の注文売上サマリーです。注文日を月単位で集計し、注文数・顧客数・売上金額を確認できる mart モデルです。
+    columns:
+      - name: order_month
+        description: 注文日を月初日に切り揃えた月次集計キーです。
+        data_tests:
+          - not_null
+          - unique
+      - name: order_count
+        description: その月に発生した注文件数です。
+        data_tests:
+          - not_null
+      - name: customer_count
+        description: その月に注文したユニーク顧客数です。
+        data_tests:
+          - not_null
+      - name: gross_sales_amount
+        description: その月の値引き前売上金額合計です。
+        data_tests:
+          - not_null
+      - name: discount_amount
+        description: その月の値引き金額合計です。
+        data_tests:
+          - not_null
+      - name: tax_amount
+        description: その月の税額合計です。
+        data_tests:
+          - not_null
+      - name: net_sales_amount
+        description: その月の最終売上金額合計です。
+        data_tests:
+          - not_null
+
+unit_tests:
+  - name: monthly_sales_aggregates_by_month
+    model: monthly_sales
+    given:
+      - input: ref('fct_orders')
+        rows:
+          - {order_date: '2024-01-05', customer_key: 1, gross_item_sales_amount: 100, item_discount_amount: -10, item_tax_amount: 9, net_item_sales_amount: 99}
+          - {order_date: '2024-01-20', customer_key: 1, gross_item_sales_amount: 200, item_discount_amount: -20, item_tax_amount: 18, net_item_sales_amount: 198}
+          - {order_date: '2024-01-25', customer_key: 2, gross_item_sales_amount: 300, item_discount_amount: -30, item_tax_amount: 27, net_item_sales_amount: 297}
+          - {order_date: '2024-02-01', customer_key: 3, gross_item_sales_amount: 400, item_discount_amount: -40, item_tax_amount: 36, net_item_sales_amount: 396}
+    expect:
+      rows:
+        - {order_month: '2024-01-01', order_count: 3, customer_count: 2, gross_sales_amount: 600, discount_amount: -60, tax_amount: 54, net_sales_amount: 594}
+        - {order_month: '2024-02-01', order_count: 1, customer_count: 1, gross_sales_amount: 400, discount_amount: -40, tax_amount: 36, net_sales_amount: 396}
+
+  - name: monthly_sales_returns_no_rows_for_empty_input
+    model: monthly_sales
+    given:
+      - input: ref('fct_orders')
+        rows: []
+    expect:
+      rows: []
