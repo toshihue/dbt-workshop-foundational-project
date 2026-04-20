@@ -1,0 +1,15 @@
+models:
+  - name: monthly_sales
+    description: 注文データを月単位で集計した売上サマリーです。各月の注文件数と売上金額を確認できます。
+    columns:
+      - name: order_month
+        description: 注文日を月初日に丸めた月次の集計キーです。
+        data_tests:
+          - not_null
+          - unique
+      - name: order_count
+        description: その月に作成された注文件数です。
+      - name: monthly_sales_amount
+        description: その月の注文金額合計です。
+      - name: avg_order_amount
+        description: その月の1注文あたり平均金額です。

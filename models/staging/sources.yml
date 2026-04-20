@@ -1,11 +1,24 @@
 sources:
   - name: tpch
+    description: TPC-H サンプルデータの raw スキーマです。
     database: raw
     schema: tpch_sf001
     tables:
-      - name: orders
-        description: "One record per order"
       - name: customer
-        description: "One record per customer"
+        description: 顧客ごとの基本情報を保持するソーステーブルです。
       - name: lineitem
-        description: "One record per line item within a single order (1 -> n)"
+        description: 注文内の各明細行を保持するソーステーブルです。
+      - name: nation
+        description: 国マスタを保持するソーステーブルです。
+      - name: orders
+        description: 注文ごとの基本情報を保持するソーステーブルです。
+      - name: part
+        description: 商品マスタを保持するソーステーブルです。
+      - name: partsupp
+        description: 商品と仕入先の対応および供給情報を保持するソーステーブルです。
+      - name: part_update_dt
+        description: 商品マスタに更新日を付与したソーステーブルです。
+      - name: region
+        description: 地域マスタを保持するソーステーブルです。
+      - name: supplier
+        description: 仕入先マスタを保持するソーステーブルです.

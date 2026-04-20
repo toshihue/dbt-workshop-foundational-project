@@ -1,0 +1,190 @@
+models:
+  - name: stg_orders
+    description: 注文テーブルを分析しやすい列名に整形したステージングモデルです。
+    columns:
+      - name: order_key
+        description: 注文を一意に識別するキーです。
+      - name: customer_key
+        description: 注文を行った顧客のキーです。
+      - name: status_code
+        description: 注文ステータスを表すコードです。
+      - name: total_price
+        description: 注文全体の合計金額です。
+      - name: order_date
+        description: 注文日です。
+      - name: clerk_name
+        description: 注文を担当した clerk 名です。
+      - name: priority_code
+        description: 注文優先度を表すコードです。
+      - name: ship_priority
+        description: 出荷優先度です。
+      - name: comment
+        description: 注文に関するコメントです。
+
+  - name: stg_customers
+    description: 顧客テーブルを分析しやすい列名に整形したステージングモデルです。
+    columns:
+      - name: customer_key
+        description: 顧客を一意に識別するキーです。
+      - name: name
+        description: 顧客名です。
+      - name: address
+        description: 顧客住所です。
+      - name: nation_key
+        description: 顧客が属する国のキーです。
+      - name: phone_number
+        description: 顧客の電話番号です。
+      - name: account_balance
+        description: 顧客の口座残高です。
+      - name: market_segment
+        description: 顧客の市場セグメントです。
+      - name: comment
+        description: 顧客に関するコメントです。
+
+  - name: stg_line_items
+    description: 注文明細テーブルを分析しやすい列名に整形し、金額計算列を追加したステージングモデルです。
+    columns:
+      - name: order_key
+        description: 親となる注文のキーです。
+      - name: part_key
+        description: 商品のキーです。
+      - name: supplier_key
+        description: 仕入先のキーです。
+      - name: line_number
+        description: 注文内の明細行番号です。
+      - name: quantity
+        description: 明細の数量です。
+      - name: gross_item_sales_amount
+        description: 割引前の明細売上金額です。
+      - name: discount_percentage
+        description: 明細に適用された割引率です。
+      - name: tax_rate
+        description: 明細に適用された税率です。
+      - name: return_flag
+        description: 返品有無を表すフラグです。
+      - name: status_code
+        description: 明細ステータスを表すコードです。
+      - name: ship_date
+        description: 出荷日です。
+      - name: commit_date
+        description: 出荷確約日です。
+      - name: receipt_date
+        description: 受領日です。
+      - name: ship_instructions
+        description: 出荷指示です。
+      - name: ship_mode
+        description: 出荷方法です。
+      - name: comment
+        description: 明細に関するコメントです。
+      - name: base_price
+        description: 数量あたりの基準単価です。
+      - name: discounted_price
+        description: 割引適用後の数量あたり単価です。
+      - name: discounted_item_sales_amount
+        description: 割引適用後の明細売上金額です。
+      - name: item_discount_amount
+        description: 明細の割引金額です。
+      - name: item_tax_amount
+        description: 明細の税額です。
+      - name: net_item_sales_amount
+        description: 割引と税額を反映した純売上金額です。
+
+  - name: stg_nations
+    description: 国マスタを分析しやすい列名に整形したステージングモデルです。
+    columns:
+      - name: nation_key
+        description: 国を一意に識別するキーです。
+      - name: nation_name
+        description: 国名です。
+      - name: region_key
+        description: 国が属する地域のキーです。
+      - name: comment
+        description: 国に関するコメントです。
+
+  - name: stg_parts
+    description: 商品マスタを分析しやすい列名に整形したステージングモデルです。
+    columns:
+      - name: part_key
+        description: 商品を一意に識別するキーです。
+      - name: part_name
+        description: 商品名です。
+      - name: manufacturer_name
+        description: 製造元名です。
+      - name: brand_name
+        description: ブランド名です。
+      - name: part_type
+        description: 商品タイプです。
+      - name: part_size
+        description: 商品サイズです。
+      - name: container_type
+        description: 容器種別です。
+      - name: retail_price
+        description: 小売価格です。
+      - name: comment
+        description: 商品に関するコメントです。
+
+  - name: stg_part_suppliers
+    description: 商品と仕入先の対応情報を分析しやすい列名に整形したステージングモデルです。
+    columns:
+      - name: part_key
+        description: 商品のキーです。
+      - name: supplier_key
+        description: 仕入先のキーです。
+      - name: available_quantity
+        description: 供給可能数量です。
+      - name: supply_cost
+        description: 供給原価です。
+      - name: comment
+        description: 供給情報に関するコメントです。
+
+  - name: stg_part_update_dates
+    description: 商品マスタ更新日付きテーブルを分析しやすい列名に整形したステージングモデルです。
+    columns:
+      - name: part_key
+        description: 商品を一意に識別するキーです。
+      - name: part_name
+        description: 商品名です。
+      - name: manufacturer_name
+        description: 製造元名です。
+      - name: brand_name
+        description: ブランド名です。
+      - name: part_type
+        description: 商品タイプです。
+      - name: part_size
+        description: 商品サイズです。
+      - name: container_type
+        description: 容器種別です。
+      - name: retail_price
+        description: 小売価格です。
+      - name: comment
+        description: 商品に関するコメントです。
+      - name: update_date
+        description: 商品情報の更新日です。
+
+  - name: stg_regions
+    description: 地域マスタを分析しやすい列名に整形したステージングモデルです。
+    columns:
+      - name: region_key
+        description: 地域を一意に識別するキーです。
+      - name: region_name
+        description: 地域名です。
+      - name: comment
+        description: 地域に関するコメントです。
+
+  - name: stg_suppliers
+    description: 仕入先マスタを分析しやすい列名に整形したステージングモデルです。
+    columns:
+      - name: supplier_key
+        description: 仕入先を一意に識別するキーです。
+      - name: supplier_name
+        description: 仕入先名です。
+      - name: address
+        description: 仕入先住所です。
+      - name: nation_key
+        description: 仕入先が属する国のキーです。
+      - name: phone_number
+        description: 仕入先の電話番号です。
+      - name: account_balance
+        description: 仕入先の口座残高です。
+      - name: comment
+        description: 仕入先に関するコメントです。
