@@ -1,0 +1,23 @@
+version: 2
+
+models:
+  - name: monthly_sales
+    description: 月次の注文売上サマリーです。注文日を月単位で集計し、注文数・顧客数・売上金額を確認できる mart モデルです。
+    columns:
+      - name: order_month
+        description: 注文日を月初日に切り揃えた月次集計キーです。
+        data_tests:
+          - not_null
+          - unique
+      - name: order_count
+        description: その月に発生した注文件数です。
+      - name: customer_count
+        description: その月に注文したユニーク顧客数です。
+      - name: gross_sales_amount
+        description: その月の値引き前売上金額合計です。
+      - name: discount_amount
+        description: その月の値引き金額合計です。
+      - name: tax_amount
+        description: その月の税額合計です。
+      - name: net_sales_amount
+        description: その月の最終売上金額合計です。

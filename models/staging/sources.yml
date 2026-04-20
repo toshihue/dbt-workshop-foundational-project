@@ -1,11 +1,185 @@
+version: 2
+
 sources:
   - name: tpch
+    description: TPCH サンプルデータの raw ソースです。
     database: raw
     schema: tpch_sf001
     tables:
-      - name: orders
-        description: "One record per order"
       - name: customer
-        description: "One record per customer"
+        description: 顧客ごとの基本情報を保持するソーステーブルです。
+        columns:
+          - name: C_CUSTKEY
+            description: 顧客キーです。
+          - name: C_NAME
+            description: 顧客名です。
+          - name: C_ADDRESS
+            description: 顧客住所です。
+          - name: C_NATIONKEY
+            description: 顧客の所属国キーです。
+          - name: C_PHONE
+            description: 顧客の電話番号です。
+          - name: C_ACCTBAL
+            description: 顧客の口座残高です。
+          - name: C_MKTSEGMENT
+            description: 顧客の市場セグメントです。
+          - name: C_COMMENT
+            description: 顧客に関するコメントです。
+
       - name: lineitem
-        description: "One record per line item within a single order (1 -> n)"
+        description: 注文内の明細行を保持するソーステーブルです。
+        columns:
+          - name: L_ORDERKEY
+            description: 注文キーです。
+          - name: L_PARTKEY
+            description: 部品キーです。
+          - name: L_SUPPKEY
+            description: 供給者キーです。
+          - name: L_LINENUMBER
+            description: 注文明細の行番号です。
+          - name: L_QUANTITY
+            description: 注文数量です。
+          - name: L_EXTENDEDPRICE
+            description: 明細の拡張価格です。
+          - name: L_DISCOUNT
+            description: 値引率です。
+          - name: L_TAX
+            description: 税率です。
+          - name: L_RETURNFLAG
+            description: 返品フラグです。
+          - name: L_LINESTATUS
+            description: 明細ステータスです。
+          - name: L_SHIPDATE
+            description: 出荷日です。
+          - name: L_COMMITDATE
+            description: 確約日です。
+          - name: L_RECEIPTDATE
+            description: 受領日です。
+          - name: L_SHIPINSTRUCT
+            description: 出荷指示です。
+          - name: L_SHIPMODE
+            description: 出荷方法です。
+          - name: L_COMMENT
+            description: 明細に関するコメントです。
+
+      - name: nation
+        description: 国マスタを保持するソーステーブルです。
+        columns:
+          - name: N_NATIONKEY
+            description: 国キーです。
+          - name: N_NAME
+            description: 国名です。
+          - name: N_REGIONKEY
+            description: 地域キーです。
+          - name: N_COMMENT
+            description: 国に関するコメントです。
+
+      - name: orders
+        description: 注文ヘッダを保持するソーステーブルです。
+        columns:
+          - name: O_ORDERKEY
+            description: 注文キーです。
+          - name: O_CUSTKEY
+            description: 顧客キーです。
+          - name: O_ORDERSTATUS
+            description: 注文ステータスです。
+          - name: O_TOTALPRICE
+            description: 注文合計金額です。
+          - name: O_ORDERDATE
+            description: 注文日です。
+          - name: O_ORDERPRIORITY
+            description: 注文優先度です。
+          - name: O_CLERK
+            description: 担当 clerk 名です。
+          - name: O_SHIPPRIORITY
+            description: 出荷優先度です。
+          - name: O_COMMENT
+            description: 注文に関するコメントです。
+
+      - name: part
+        description: 部品マスタを保持するソーステーブルです。
+        columns:
+          - name: P_PARTKEY
+            description: 部品キーです。
+          - name: P_NAME
+            description: 部品名です。
+          - name: P_MFGR
+            description: 製造業者名です。
+          - name: P_BRAND
+            description: ブランド名です。
+          - name: P_TYPE
+            description: 部品タイプです。
+          - name: P_SIZE
+            description: 部品サイズです。
+          - name: P_CONTAINER
+            description: 容器種別です。
+          - name: P_RETAILPRICE
+            description: 小売価格です。
+          - name: P_COMMENT
+            description: 部品に関するコメントです。
+
+      - name: partsupp
+        description: 部品と供給者の組み合わせ情報を保持するソーステーブルです。
+        columns:
+          - name: PS_PARTKEY
+            description: 部品キーです。
+          - name: PS_SUPPKEY
+            description: 供給者キーです。
+          - name: PS_AVAILQTY
+            description: 利用可能数量です。
+          - name: PS_SUPPLYCOST
+            description: 供給原価です。
+          - name: PS_COMMENT
+            description: 部品供給に関するコメントです。
+
+      - name: part_update_dt
+        description: 更新日時付きの部品マスタを保持するソーステーブルです。
+        columns:
+          - name: P_PARTKEY
+            description: 部品キーです。
+          - name: P_NAME
+            description: 部品名です。
+          - name: P_MFGR
+            description: 製造業者名です。
+          - name: P_BRAND
+            description: ブランド名です。
+          - name: P_TYPE
+            description: 部品タイプです。
+          - name: P_SIZE
+            description: 部品サイズです。
+          - name: P_CONTAINER
+            description: 容器種別です。
+          - name: P_RETAILPRICE
+            description: 小売価格です。
+          - name: P_COMMENT
+            description: 部品に関するコメントです。
+          - name: UPDATE_DT
+            description: レコードの更新日時です。
+
+      - name: region
+        description: 地域マスタを保持するソーステーブルです。
+        columns:
+          - name: R_REGIONKEY
+            description: 地域キーです。
+          - name: R_NAME
+            description: 地域名です。
+          - name: R_COMMENT
+            description: 地域に関するコメントです。
+
+      - name: supplier
+        description: 供給者マスタを保持するソーステーブルです。
+        columns:
+          - name: S_SUPPKEY
+            description: 供給者キーです。
+          - name: S_NAME
+            description: 供給者名です。
+          - name: S_ADDRESS
+            description: 供給者住所です。
+          - name: S_NATIONKEY
+            description: 供給者の所属国キーです。
+          - name: S_PHONE
+            description: 供給者の電話番号です。
+          - name: S_ACCTBAL
+            description: 供給者の口座残高です。
+          - name: S_COMMENT
+            description: 供給者に関するコメントです。
