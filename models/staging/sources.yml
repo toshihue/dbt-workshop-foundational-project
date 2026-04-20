@@ -1,11 +1,26 @@
+version: 2
+
 sources:
   - name: tpch
+    description: TPCH サンプルデータの生データソースです。
     database: raw
     schema: tpch_sf001
     tables:
-      - name: orders
-        description: "One record per order"
       - name: customer
-        description: "One record per customer"
+        description: 顧客ごとの生データです。
       - name: lineitem
-        description: "One record per line item within a single order (1 -> n)"
+        description: 注文内の明細行ごとの生データです。
+      - name: nation
+        description: 国マスタの生データです。
+      - name: orders
+        description: 注文ごとの生データです。
+      - name: part
+        description: 部品マスタの生データです。
+      - name: partsupp
+        description: 部品とサプライヤーの対応情報の生データです。
+      - name: part_update_dt
+        description: 更新日時を含む部品データの生データです。
+      - name: region
+        description: 地域マスタの生データです。
+      - name: supplier
+        description: サプライヤーごとの生データです。

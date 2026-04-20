@@ -1,0 +1,335 @@
+version: 2
+
+models:
+  - name: stg_customers
+    description: 顧客ソースを分析用の命名にそろえたステージングモデルです。
+    columns:
+      - name: customer_key
+        description: 顧客を一意に識別するキーです。
+        data_tests:
+          - not_null
+          - unique
+      - name: name
+        description: 顧客名です。
+      - name: address
+        description: 顧客の住所です。
+      - name: nation_key
+        description: 顧客が属する国を識別するキーです。
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_nations')
+                field: nation_key
+      - name: phone_number
+        description: 顧客の電話番号です。
+      - name: account_balance
+        description: 顧客の口座残高です。
+      - name: market_segment
+        description: 顧客の市場セグメントです。
+      - name: comment
+        description: 顧客に関する補足コメントです。
+
+  - name: stg_line_items
+    description: 注文明細ソースを分析用の命名と派生指標に整えたステージングモデルです。
+    columns:
+      - name: order_key
+        description: 注文を識別するキーです。
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_orders')
+                field: order_key
+      - name: part_key
+        description: 部品を識別するキーです。
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_parts')
+                field: part_key
+      - name: supplier_key
+        description: サプライヤーを識別するキーです。
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_suppliers')
+                field: supplier_key
+      - name: line_number
+        description: 注文内の明細行番号です。
+        data_tests:
+          - not_null
+      - name: quantity
+        description: 注文明細の数量です。
+        data_tests:
+          - not_null
+      - name: gross_item_sales_amount
+        description: 値引き前の明細売上金額です。
+        data_tests:
+          - not_null
+      - name: discount_percentage
+        description: 明細に適用された値引率です。
+      - name: tax_rate
+        description: 明細に適用された税率です。
+      - name: return_flag
+        description: 返品有無を示すフラグです。
+      - name: status_code
+        description: 明細のステータスコードです。
+      - name: ship_date
+        description: 出荷日です。
+      - name: commit_date
+        description: 出荷確定日です。
+      - name: receipt_date
+        description: 受領日です。
+      - name: ship_instructions
+        description: 出荷指示内容です。
+      - name: ship_mode
+        description: 配送方法です。
+      - name: comment
+        description: 明細に関する補足コメントです。
+      - name: base_price
+        description: 数量あたりの基準単価です。
+      - name: discounted_price
+        description: 値引き適用後の単価です。
+      - name: discounted_item_sales_amount
+        description: 値引き適用後の明細売上金額です。
+      - name: item_discount_amount
+        description: 負の金額として表現した値引き額です。
+      - name: item_tax_amount
+        description: 明細の税額です。
+      - name: net_item_sales_amount
+        description: 値引きと税額を反映した最終明細売上金額です。
+
+  - name: stg_nations
+    description: 国マスタを分析用の命名にそろえたステージングモデルです。
+    columns:
+      - name: nation_key
+        description: 国を一意に識別するキーです。
+        data_tests:
+          - not_null
+          - unique
+      - name: nation_name
+        description: 国名です。
+      - name: region_key
+        description: 国が属する地域を識別するキーです。
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_regions')
+                field: region_key
+      - name: comment
+        description: 国に関する補足コメントです。
+
+  - name: stg_orders
+    description: 注文ソースを分析用の命名にそろえたステージングモデルです。
+    columns:
+      - name: order_key
+        description: 注文を一意に識別するキーです。
+        data_tests:
+          - not_null
+          - unique
+      - name: customer_key
+        description: 注文した顧客を識別するキーです。
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_customers')
+                field: customer_key
+      - name: status_code
+        description: 注文ステータスのコードです。
+      - name: total_price
+        description: 注文合計金額です。
+        data_tests:
+          - not_null
+      - name: order_date
+        description: 注文日です。
+        data_tests:
+          - not_null
+      - name: clerk_name
+        description: 担当クラーク名です。
+      - name: priority_code
+        description: 注文優先度のコードです。
+      - name: ship_priority
+        description: 出荷優先度です。
+      - name: comment
+        description: 注文に関する補足コメントです。
+
+  - name: stg_parts
+    description: 部品マスタを分析用の命名にそろえたステージングモデルです。
+    columns:
+      - name: part_key
+        description: 部品を一意に識別するキーです。
+        data_tests:
+          - not_null
+          - unique
+      - name: part_name
+        description: 部品名です。
+      - name: manufacturer
+        description: 製造元です。
+      - name: brand
+        description: ブランド名です。
+      - name: part_type
+        description: 部品タイプです。
+      - name: size
+        description: 部品サイズです。
+      - name: container
+        description: 容器種別です。
+      - name: retail_price
+        description: 小売価格です。
+        data_tests:
+          - not_null
+      - name: comment
+        description: 部品に関する補足コメントです。
+
+  - name: stg_part_suppliers
+    description: 部品とサプライヤーの対応情報を分析用の命名にそろえたステージングモデルです。
+    columns:
+      - name: part_key
+        description: 部品を識別するキーです。
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_parts')
+                field: part_key
+      - name: supplier_key
+        description: サプライヤーを識別するキーです。
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_suppliers')
+                field: supplier_key
+      - name: available_quantity
+        description: 提供可能数量です。
+        data_tests:
+          - not_null
+      - name: supply_cost
+        description: 調達単価です。
+        data_tests:
+          - not_null
+      - name: comment
+        description: 部品供給情報に関する補足コメントです。
+
+  - name: stg_part_update_dt
+    description: 更新日時付きの部品データを分析用の命名にそろえたステージングモデルです。
+    columns:
+      - name: part_key
+        description: 部品を一意に識別するキーです。
+        data_tests:
+          - not_null
+      - name: part_name
+        description: 部品名です。
+      - name: manufacturer
+        description: 製造元です。
+      - name: brand
+        description: ブランド名です。
+      - name: part_type
+        description: 部品タイプです。
+      - name: size
+        description: 部品サイズです。
+      - name: container
+        description: 容器種別です。
+      - name: retail_price
+        description: 小売価格です。
+      - name: comment
+        description: 部品に関する補足コメントです。
+      - name: update_dt
+        description: 更新日時です。
+
+
+
+  - name: stg_regions
+    description: 地域マスタを分析用の命名にそろえたステージングモデルです。
+    columns:
+      - name: region_key
+        description: 地域を一意に識別するキーです。
+        data_tests:
+          - not_null
+          - unique
+      - name: region_name
+        description: 地域名です。
+      - name: comment
+        description: 地域に関する補足コメントです。
+
+  - name: stg_suppliers
+    description: サプライヤーソースを分析用の命名にそろえたステージングモデルです。
+    columns:
+      - name: supplier_key
+        description: サプライヤーを一意に識別するキーです。
+        data_tests:
+          - not_null
+          - unique
+      - name: supplier_name
+        description: サプライヤー名です。
+      - name: address
+        description: サプライヤーの住所です。
+      - name: nation_key
+        description: サプライヤーが属する国を識別するキーです。
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_nations')
+                field: nation_key
+      - name: phone_number
+        description: サプライヤーの電話番号です。
+      - name: account_balance
+        description: サプライヤーの口座残高です。
+      - name: comment
+        description: サプライヤーに関する補足コメントです。
+
+unit_tests:
+
+  - name: test_stg_line_items_derive_amount_columns
+    description: 明細金額と値引き・税額の派生ロジックが期待通りに計算されることを確認します。
+    model: stg_line_items
+    given:
+      - input: source('tpch', 'lineitem')
+        format: sql
+        rows: |
+          select
+              1 as l_orderkey,
+              10 as l_partkey,
+              100 as l_suppkey,
+              1 as l_linenumber,
+              2 as l_quantity,
+              100::decimal(16,4) as l_extendedprice,
+              0.1::decimal(16,4) as l_discount,
+              0.2::decimal(16,4) as l_tax,
+              'N' as l_returnflag,
+              'O' as l_linestatus,
+              '2024-01-05'::date as l_shipdate,
+              '2024-01-04'::date as l_commitdate,
+              '2024-01-06'::date as l_receiptdate,
+              'DELIVER IN PERSON' as l_shipinstruct,
+              'AIR' as l_shipmode,
+              'test row' as l_comment
+    expect:
+      rows:
+        - {
+            order_key: 1,
+            part_key: 10,
+            supplier_key: 100,
+            line_number: 1,
+            quantity: 2,
+            gross_item_sales_amount: 100,
+            return_flag: N,
+            status_code: O,
+            ship_date: 2024-01-05,
+            commit_date: 2024-01-04,
+            receipt_date: 2024-01-06,
+            ship_instructions: DELIVER IN PERSON,
+            ship_mode: AIR,
+            comment: test row,
+            base_price: 50.0000,
+            discounted_price: 45.0000,
+            discounted_item_sales_amount: 90.0000,
+            item_discount_amount: -10.0000,
+            item_tax_amount: 18.0000,
+            net_item_sales_amount: 108.0000
+          }

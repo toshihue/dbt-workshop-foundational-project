@@ -1,0 +1,90 @@
+version: 2
+
+models:
+  - name: monthly_sales
+    description: 注文データを月次粒度で集計した売上サマリーモデルです。
+    columns:
+      - name: order_month
+        description: 集計対象月の月初日です。
+        data_tests:
+          - not_null
+          - unique
+      - name: order_count
+        description: その月に計上された注文件数です。
+        data_tests:
+          - not_null
+      - name: customer_count
+        description: その月に注文したユニーク顧客数です。
+        data_tests:
+          - not_null
+      - name: gross_sales_amount
+        description: 値引き前の売上金額合計です。
+        data_tests:
+          - not_null
+      - name: discount_amount
+        description: 値引きを負の金額として表現した合計値です。
+        data_tests:
+          - not_null
+      - name: tax_amount
+        description: 税額合計です。
+        data_tests:
+          - not_null
+      - name: net_sales_amount
+        description: 値引きと税額を反映した最終売上金額合計です。
+        data_tests:
+          - not_null
+
+unit_tests:
+  - name: test_monthly_sales_aggregate_by_month
+    description: 月ごとの件数、ユニーク顧客数、金額集計が期待通りに算出されることを確認します。
+    model: monthly_sales
+    given:
+      - input: ref('fct_orders')
+        rows:
+          - {
+              order_key: 1,
+              order_date: 2024-01-05,
+              customer_key: 101,
+              gross_item_sales_amount: 100,
+              item_discount_amount: -10,
+              item_tax_amount: 9,
+              net_item_sales_amount: 99
+            }
+          - {
+              order_key: 2,
+              order_date: 2024-01-15,
+              customer_key: 101,
+              gross_item_sales_amount: 50,
+              item_discount_amount: 0,
+              item_tax_amount: 5,
+              net_item_sales_amount: 55
+            }
+          - {
+              order_key: 3,
+              order_date: 2024-02-01,
+              customer_key: 202,
+              gross_item_sales_amount: 200,
+              item_discount_amount: -20,
+              item_tax_amount: 18,
+              net_item_sales_amount: 198
+            }
+    expect:
+      rows:
+        - {
+            order_month: 2024-01-01,
+            order_count: 2,
+            customer_count: 1,
+            gross_sales_amount: 150,
+            discount_amount: -10,
+            tax_amount: 14,
+            net_sales_amount: 154
+          }
+        - {
+            order_month: 2024-02-01,
+            order_count: 1,
+            customer_count: 1,
+            gross_sales_amount: 200,
+            discount_amount: -20,
+            tax_amount: 18,
+            net_sales_amount: 198
+          }
