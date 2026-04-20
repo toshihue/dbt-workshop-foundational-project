@@ -1,0 +1,36 @@
+models:
+  - name: monthly_sales
+    description: 注文データを月単位で集計した売上サマリーです。各月の注文件数と売上金額を確認できます。
+    columns:
+      - name: order_month
+        description: 注文日を月初日に丸めた月次の集計キーです。
+        data_tests:
+          - not_null
+          - unique
+      - name: order_count
+        description: その月に作成された注文件数です。
+        data_tests:
+          - not_null
+      - name: monthly_sales_amount
+        description: その月の注文金額合計です。
+        data_tests:
+          - not_null
+      - name: avg_order_amount
+        description: その月の1注文あたり平均金額です。
+        data_tests:
+          - not_null
+
+unit_tests:
+  - name: test_monthly_sales_aggregates_orders_by_month
+    description: 月をまたぐ注文データを正しく月次集計できることを検証します。
+    model: monthly_sales
+    given:
+      - input: ref('stg_orders')
+        rows:
+          - {order_key: 1, customer_key: 10, status_code: O, total_price: 100, order_date: '2024-01-15', clerk_name: Clerk#000000001, priority_code: 1-URGENT, ship_priority: 0, comment: first order}
+          - {order_key: 2, customer_key: 11, status_code: F, total_price: 200, order_date: '2024-01-20', clerk_name: Clerk#000000002, priority_code: 2-HIGH, ship_priority: 0, comment: second order}
+          - {order_key: 3, customer_key: 12, status_code: O, total_price: 50, order_date: '2024-02-03', clerk_name: Clerk#000000003, priority_code: 3-MEDIUM, ship_priority: 0, comment: third order}
+    expect:
+      rows:
+        - {order_month: '2024-01-01', order_count: 2, monthly_sales_amount: 300, avg_order_amount: 150}
+        - {order_month: '2024-02-01', order_count: 1, monthly_sales_amount: 50, avg_order_amount: 50}
