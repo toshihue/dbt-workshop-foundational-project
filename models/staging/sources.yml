@@ -1,11 +1,26 @@
+version: 2
+
 sources:
   - name: tpch
+    description: TPCH サンプルデータを保持する raw スキーマのソース定義。
     database: raw
     schema: tpch_sf001
     tables:
-      - name: orders
-        description: "One record per order"
       - name: customer
-        description: "One record per customer"
+        description: 顧客ごとの基本情報を保持するテーブル。
       - name: lineitem
-        description: "One record per line item within a single order (1 -> n)"
+        description: 注文内の商品明細を保持するテーブル。
+      - name: nation
+        description: 国コードと地域コードの対応を保持するテーブル。
+      - name: orders
+        description: 注文ごとの基本情報を保持するテーブル。
+      - name: part
+        description: 商品マスタの基本情報を保持するテーブル。
+      - name: partsupp
+        description: 商品とサプライヤーの供給条件を保持するテーブル。
+      - name: part_update_dt
+        description: 商品マスタに更新日時を付与したテーブル。
+      - name: region
+        description: 地域マスタを保持するテーブル。
+      - name: supplier
+        description: サプライヤーの基本情報を保持するテーブル。
