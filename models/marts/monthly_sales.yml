@@ -1,0 +1,23 @@
+version: 2
+
+models:
+  - name: monthly_sales
+    description: 注文データを月単位で集計した売上サマリー。各月の注文件数、顧客数、および売上関連金額を確認するためのモデル。
+    columns:
+      - name: month_start
+        description: 集計対象月の月初日。
+        data_tests:
+          - not_null
+          - unique
+      - name: order_count
+        description: 当月に発生した注文件数。
+      - name: customer_count
+        description: 当月に注文したユニーク顧客数。
+      - name: gross_sales_amount
+        description: 当月の値引き前売上金額の合計。
+      - name: discount_amount
+        description: 当月の値引き金額の合計。
+      - name: tax_amount
+        description: 当月の税額の合計。
+      - name: net_sales_amount
+        description: 当月の純売上金額の合計。
