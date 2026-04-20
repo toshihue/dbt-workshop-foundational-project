@@ -6,12 +6,21 @@ models:
     columns:
       - name: customer_key
         description: 顧客キーです。
+        data_tests:
+          - not_null
+          - unique
       - name: name
         description: 顧客名です。
       - name: address
         description: 顧客住所です。
       - name: nation_key
         description: 顧客の所属国キーです。
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_nation')
+                field: nation_key
       - name: phone_number
         description: 顧客の電話番号です。
       - name: account_balance
@@ -26,12 +35,32 @@ models:
     columns:
       - name: order_key
         description: 注文キーです。
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_orders')
+                field: order_key
       - name: part_key
         description: 部品キーです。
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_part')
+                field: part_key
       - name: supplier_key
         description: 供給者キーです。
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_supplier')
+                field: supplier_key
       - name: line_number
         description: 注文明細の行番号です。
+        data_tests:
+          - not_null
       - name: quantity
         description: 注文数量です。
       - name: gross_item_sales_amount
@@ -74,14 +103,25 @@ models:
     columns:
       - name: order_key
         description: 注文キーです。
+        data_tests:
+          - not_null
+          - unique
       - name: customer_key
         description: 顧客キーです。
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_customers')
+                field: customer_key
       - name: status_code
         description: 注文ステータスコードです。
       - name: total_price
         description: 注文合計金額です。
       - name: order_date
         description: 注文日です。
+        data_tests:
+          - not_null
       - name: clerk_name
         description: 担当 clerk 名です。
       - name: priority_code
@@ -96,10 +136,19 @@ models:
     columns:
       - name: nation_key
         description: 国キーです。
+        data_tests:
+          - not_null
+          - unique
       - name: nation_name
         description: 国名です。
       - name: region_key
         description: 地域キーです。
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_region')
+                field: region_key
       - name: comment
         description: 国に関するコメントです。
 
@@ -108,6 +157,9 @@ models:
     columns:
       - name: part_key
         description: 部品キーです。
+        data_tests:
+          - not_null
+          - unique
       - name: part_name
         description: 部品名です。
       - name: manufacturer_name
@@ -130,8 +182,20 @@ models:
     columns:
       - name: part_key
         description: 部品キーです。
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_part')
+                field: part_key
       - name: supplier_key
         description: 供給者キーです。
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_supplier')
+                field: supplier_key
       - name: available_quantity
         description: 利用可能数量です。
       - name: supply_cost
@@ -144,6 +208,8 @@ models:
     columns:
       - name: part_key
         description: 部品キーです。
+        data_tests:
+          - not_null
       - name: part_name
         description: 部品名です。
       - name: manufacturer_name
@@ -162,12 +228,17 @@ models:
         description: 部品に関するコメントです。
       - name: update_at
         description: レコード更新日時です。
+        data_tests:
+          - not_null
 
   - name: stg_region
     description: region ソースを分析用に整形したステージングモデルです。
     columns:
       - name: region_key
         description: 地域キーです。
+        data_tests:
+          - not_null
+          - unique
       - name: region_name
         description: 地域名です。
       - name: comment
@@ -178,12 +249,21 @@ models:
     columns:
       - name: supplier_key
         description: 供給者キーです。
+        data_tests:
+          - not_null
+          - unique
       - name: supplier_name
         description: 供給者名です。
       - name: address
         description: 供給者住所です。
       - name: nation_key
         description: 供給者の所属国キーです。
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_nation')
+                field: nation_key
       - name: phone_number
         description: 供給者の電話番号です。
       - name: account_balance
