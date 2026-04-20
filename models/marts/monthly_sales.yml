@@ -1,0 +1,23 @@
+version: 2
+
+models:
+  - name: monthly_sales
+    description: 注文データを月次粒度で集計した売上サマリーモデルです。
+    columns:
+      - name: order_month
+        description: 集計対象月の月初日です。
+        data_tests:
+          - not_null
+          - unique
+      - name: order_count
+        description: その月に計上された注文件数です。
+      - name: customer_count
+        description: その月に注文したユニーク顧客数です。
+      - name: gross_sales_amount
+        description: 値引き前の売上金額合計です。
+      - name: discount_amount
+        description: 値引きを負の金額として表現した合計値です。
+      - name: tax_amount
+        description: 税額合計です。
+      - name: net_sales_amount
+        description: 値引きと税額を反映した最終売上金額合計です。
