@@ -1,0 +1,192 @@
+version: 2
+
+models:
+  - name: stg_orders
+    description: 注文データを分析用の命名に整形したステージングモデル。
+    columns:
+      - name: order_key
+        description: 注文キー。
+      - name: customer_key
+        description: 顧客キー。
+      - name: status_code
+        description: 注文ステータスコード。
+      - name: total_price
+        description: 注文合計金額。
+      - name: order_date
+        description: 注文日。
+      - name: clerk_name
+        description: 担当者名。
+      - name: priority_code
+        description: 注文優先度コード。
+      - name: ship_priority
+        description: 出荷優先度。
+      - name: comment
+        description: 注文コメント。
+
+  - name: stg_customers
+    description: 顧客データを分析用の命名に整形したステージングモデル。
+    columns:
+      - name: customer_key
+        description: 顧客キー。
+      - name: name
+        description: 顧客名。
+      - name: address
+        description: 顧客住所。
+      - name: nation_key
+        description: 国キー。
+      - name: phone_number
+        description: 電話番号。
+      - name: account_balance
+        description: 口座残高。
+      - name: market_segment
+        description: 市場セグメント。
+      - name: comment
+        description: 顧客コメント。
+
+  - name: stg_line_items
+    description: 注文明細データを分析用の命名に整形し、売上関連指標を付与したステージングモデル。
+    columns:
+      - name: order_key
+        description: 注文キー。
+      - name: part_key
+        description: 部品キー。
+      - name: supplier_key
+        description: 仕入先キー。
+      - name: line_number
+        description: 注文明細行番号。
+      - name: quantity
+        description: 数量。
+      - name: gross_item_sales_amount
+        description: 割引前の明細売上金額。
+      - name: discount_percentage
+        description: 割引率。
+      - name: tax_rate
+        description: 税率。
+      - name: return_flag
+        description: 返品フラグ。
+      - name: status_code
+        description: 明細ステータスコード。
+      - name: ship_date
+        description: 出荷日。
+      - name: commit_date
+        description: 確約日。
+      - name: receipt_date
+        description: 受領日。
+      - name: ship_instructions
+        description: 出荷指示。
+      - name: ship_mode
+        description: 出荷方法。
+      - name: comment
+        description: 明細コメント。
+      - name: base_price
+        description: 単位当たりの基準価格。
+      - name: discounted_price
+        description: 割引適用後の単価。
+      - name: discounted_item_sales_amount
+        description: 割引適用後の明細売上金額。
+      - name: item_discount_amount
+        description: 明細の値引き金額。
+      - name: item_tax_amount
+        description: 明細の税額。
+      - name: net_item_sales_amount
+        description: 税込・値引き後の明細売上金額。
+
+  - name: stg_nations
+    description: 国マスターデータを分析用の命名に整形したステージングモデル。
+    columns:
+      - name: nation_key
+        description: 国キー。
+      - name: nation_name
+        description: 国名。
+      - name: region_key
+        description: 地域キー。
+      - name: comment
+        description: 国コメント。
+
+  - name: stg_parts
+    description: 部品マスターデータを分析用の命名に整形したステージングモデル。
+    columns:
+      - name: part_key
+        description: 部品キー。
+      - name: part_name
+        description: 部品名。
+      - name: manufacturer_name
+        description: 製造元名。
+      - name: brand_name
+        description: ブランド名。
+      - name: part_type
+        description: 部品タイプ。
+      - name: part_size
+        description: 部品サイズ。
+      - name: container_type
+        description: 容器種別。
+      - name: retail_price
+        description: 小売価格。
+      - name: comment
+        description: 部品コメント。
+
+  - name: stg_part_suppliers
+    description: 部品と仕入先の対応データを分析用の命名に整形したステージングモデル。
+    columns:
+      - name: part_key
+        description: 部品キー。
+      - name: supplier_key
+        description: 仕入先キー。
+      - name: available_quantity
+        description: 利用可能数量。
+      - name: supply_cost
+        description: 供給原価。
+      - name: comment
+        description: 部品仕入先コメント。
+
+  - name: stg_part_update_dt
+    description: 更新日付きの部品データを分析用の命名に整形したステージングモデル。
+    columns:
+      - name: part_key
+        description: 部品キー。
+      - name: part_name
+        description: 部品名。
+      - name: manufacturer_name
+        description: 製造元名。
+      - name: brand_name
+        description: ブランド名。
+      - name: part_type
+        description: 部品タイプ。
+      - name: part_size
+        description: 部品サイズ。
+      - name: container_type
+        description: 容器種別。
+      - name: retail_price
+        description: 小売価格。
+      - name: comment
+        description: 部品コメント。
+      - name: update_date
+        description: 更新日。
+
+  - name: stg_regions
+    description: 地域マスターデータを分析用の命名に整形したステージングモデル。
+    columns:
+      - name: region_key
+        description: 地域キー。
+      - name: region_name
+        description: 地域名。
+      - name: comment
+        description: 地域コメント。
+
+  - name: stg_suppliers
+    description: 仕入先マスターデータを分析用の命名に整形したステージングモデル。
+    columns:
+      - name: supplier_key
+        description: 仕入先キー。
+      - name: supplier_name
+        description: 仕入先名。
+      - name: address
+        description: 仕入先住所。
+      - name: nation_key
+        description: 国キー。
+      - name: phone_number
+        description: 電話番号。
+      - name: account_balance
+        description: 口座残高。
+      - name: comment
+        description: 仕入先コメント。

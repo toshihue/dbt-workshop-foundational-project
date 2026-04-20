@@ -1,0 +1,28 @@
+version: 2
+
+models:
+  - name: monthly_sales
+    description: stg_orders を月次粒度で集計した注文サマリー。
+    columns:
+      - name: order_month
+        description: 集計対象月を表す月初日。
+        data_tests:
+          - not_null
+          - unique
+      - name: order_count
+        description: 当月に発生した注文件数。
+        data_tests:
+          - not_null
+      - name: customer_count
+        description: 当月に注文した顧客のユニーク件数。
+        data_tests:
+          - not_null
+      - name: total_sales_amount
+        description: 当月の注文合計金額。
+        data_tests:
+          - not_null
+      - name: avg_order_value
+        description: 当月の平均注文金額。
+        data_tests:
+          - not_null
+
