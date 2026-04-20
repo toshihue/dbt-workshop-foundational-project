@@ -239,7 +239,8 @@ models:
       - name: comment
         description: 部品に関する補足コメントです。
       - name: update_dt
-        description: 更新日時です.
+        description: 更新日時です。
+
 
 
   - name: stg_regions
