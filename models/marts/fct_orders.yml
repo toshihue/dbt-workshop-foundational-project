@@ -1,0 +1,32 @@
+version: 2
+
+models:
+  - name: fct_orders
+    description: 注文単位のファクトモデルです。注文ヘッダ、顧客情報、注文明細の集計結果を結合し、注文ごとの売上金額と顧客属性を分析できるようにした mart モデルです。
+    columns:
+      - name: order_key
+        description: 注文キーです。1 レコードが 1 注文を表します。
+      - name: order_date
+        description: 注文日です。
+      - name: customer_key
+        description: 顧客キーです。
+      - name: status_code
+        description: 注文ステータスコードです。
+      - name: priority_code
+        description: 注文優先度コードです。
+      - name: ship_priority
+        description: 出荷優先度です。
+      - name: clerk_name
+        description: 注文を担当した clerk 名です。
+      - name: name
+        description: 注文した顧客名です。
+      - name: market_segment
+        description: 顧客の市場セグメントです。
+      - name: gross_item_sales_amount
+        description: 注文に含まれる明細の値引き前売上金額合計です。
+      - name: item_discount_amount
+        description: 注文に含まれる明細の値引き金額合計です。
+      - name: item_tax_amount
+        description: 注文に含まれる明細の税額合計です。
+      - name: net_item_sales_amount
+        description: 注文に含まれる明細の最終売上金額合計です。
