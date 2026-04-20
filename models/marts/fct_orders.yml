@@ -1,0 +1,51 @@
+version: 2
+
+models:
+  - name: fct_orders
+    description: 注文を1行1注文の粒度で保持し、顧客属性と注文明細金額を付与したファクトモデルです。
+    columns:
+      - name: order_key
+        description: 注文を一意に識別するキーです。
+        data_tests:
+          - not_null
+          - unique
+      - name: order_date
+        description: 注文日です。
+        data_tests:
+          - not_null
+      - name: customer_key
+        description: 注文した顧客を識別するキーです。
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_customers')
+                field: customer_key
+      - name: status_code
+        description: 注文ステータスのコードです。
+      - name: priority_code
+        description: 注文優先度のコードです。
+      - name: ship_priority
+        description: 出荷優先度です。
+      - name: clerk_name
+        description: 担当クラーク名です。
+      - name: name
+        description: 顧客名です。
+      - name: market_segment
+        description: 顧客の市場セグメントです。
+      - name: gross_item_sales_amount
+        description: 値引き前の注文明細売上金額合計です。
+        data_tests:
+          - not_null
+      - name: item_discount_amount
+        description: 負の金額として表現した注文明細値引き額合計です。
+        data_tests:
+          - not_null
+      - name: item_tax_amount
+        description: 注文明細税額合計です。
+        data_tests:
+          - not_null
+      - name: net_item_sales_amount
+        description: 値引きと税額を反映した注文売上金額合計です。
+        data_tests:
+          - not_null
